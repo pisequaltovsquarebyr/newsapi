@@ -1,27 +1,29 @@
-var load = document.getElementById("loading");
-
-function loadfun() {
-  load.style.display = "none";
-}
-
 document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault();
     fetchNews();
 });
 
 function fetchNews() {
-    const apiKey = 'a8b21a4f2fb7440b841bf2f6cef7ceac'; 
+    const apiKey = 'a8b21a4f2fb7440b841bf2f6cef7ceac'; // Replace with your actual API key
     const apiUrl = `https://newsapi.org/v2/everything?q=natural%20disaster%20AND%20India&apiKey=${apiKey}`;
 
     fetch(apiUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => displayNews(data.articles))
-        .catch(error => console.error('Error fetching news:', error));
+        .catch(error => {
+            console.error('Error fetching news:', error);
+            document.getElementById('newsContainer').innerHTML = `<p>Error fetching news: ${error.message}</p>`;
+        });
 }
 
 function displayNews(articles) {
     const newsContainer = document.getElementById('newsContainer');
-    newsContainer.innerHTML = ''; 
+    newsContainer.innerHTML = ''; // Clear previous news
 
     if (articles.length === 0) {
         newsContainer.innerHTML = '<p>No news found.</p>';
