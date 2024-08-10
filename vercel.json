@@ -1,11 +1,17 @@
 {
   "version": 2,
-  "env": {
-    "NEWS_API_KEY": "a8b21a4f2fb7440b841bf2f6cef7ceac"
-  },
+  "public": true,
   "builds": [
     {
       "src": "index.hbs",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "news.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "news.js",
       "use": "@vercel/static"
     }
   ],
